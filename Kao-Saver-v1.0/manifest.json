@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Kao-Saver (Kaonavi JSON Tool)",
+  "version": "1.0",
+  "description": "カオナビ評価画面の入力内容をJSONファイルで保存・読込したり、クリップボード経由でやり取りします",
+  "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  }
+}
