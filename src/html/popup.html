@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <h3>Kao-Saver v1.0</h3>
+  
+  <div class="note">▼ Export (出力)</div>
+  <div class="btn-group">
+    <button id="btnExportClip">📋 クリップボードへ</button>
+    <button id="btnExportFile">💾 ファイルに保存</button>
+  </div>
+  
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+  
+  <div class="note">▼ Import (入力)</div>
+  <div class="file-input-wrapper">
+    <input type="file" id="fileInput" accept=".json">
+  </div>
+  <textarea id="jsonInput" placeholder='ここにJSONを貼り付けるか、上のファイル選択から読み込んでください'></textarea>
+  
+  <button id="btnImport">Import (画面へ反映)</button>
+
+  <script src="../js/popup.js"></script>
+</body>
+</html>

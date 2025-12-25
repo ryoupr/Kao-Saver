@@ -1,7 +1,7 @@
 if (typeof window.kaonaviToolLoaded === 'undefined') {
   window.kaonaviToolLoaded = true;
 
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     
     // --- Export処理 ---
     if (request.action === "export") {

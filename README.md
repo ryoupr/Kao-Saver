@@ -2,6 +2,32 @@
 
 カオナビの評価入力画面の内容をJSON形式で**バックアップ（Export）**したり、外部で編集したJSONデータを**一括反映（Import）**したりできるGoogle Chrome拡張機能です。
 
+## 📁 プロジェクト構造
+
+```
+.
+├── README.md                    # プロジェクト概要
+├── .gitignore                   # Git除外設定
+├── manifest.json                # Chrome拡張機能設定
+├── content-script.js            # コンテンツスクリプト
+├── styles.css                   # スタイルシート
+├── icons/                       # アイコンファイル格納
+│   ├── .gitkeep
+│   └── icon.png
+├── screenshot/                  # スクリーンショット格納
+│   └── .gitkeep
+├── lib/                         # ライブラリファイル（オプション）
+├── src/                         # ソースファイル
+│   ├── html/
+│   │   └── popup.html
+│   └── js/
+│       └── popup.js
+└── script/                      # ビルドスクリプト
+    ├── build-chrome-extension.sh
+    ├── generate-icons.sh
+    └── resize-to-1280x800.sh
+```
+
 ## 🚀 主な機能
 
 * **Export (出力)**:
@@ -13,11 +39,25 @@
 
 ## 📦 インストール方法
 
-1. このフォルダ（`Kao-Saver-v1.0`）を任意の場所に保存します。
-2. Google Chromeを開き、URLバーに `chrome://extensions/` と入力してアクセスします。
-3. 右上の **「デベロッパーモード」** をONにします。
-4. 左上の **「パッケージ化されていない拡張機能を読み込む」** をクリックします。
-5. `Kao-Saver-v1.0` のフォルダを選択します。
+### 開発版のインストール
+
+1. このリポジトリをクローンまたはダウンロードします
+2. ビルドスクリプトを実行します：
+   ```bash
+   ./script/build-chrome-extension.sh
+   ```
+3. Google Chromeを開き、URLバーに `chrome://extensions/` と入力してアクセスします
+4. 右上の **「デベロッパーモード」** をONにします
+5. 左上の **「パッケージ化されていない拡張機能を読み込む」** をクリックします
+6. `build` フォルダを選択します
+
+### 手動インストール（ビルドなし）
+
+1. このフォルダを任意の場所に保存します
+2. Google Chromeを開き、URLバーに `chrome://extensions/` と入力してアクセスします
+3. 右上の **「デベロッパーモード」** をONにします
+4. 左上の **「パッケージ化されていない拡張機能を読み込む」** をクリックします
+5. このプロジェクトのルートフォルダを選択します
 
 ## 📝 使い方
 
@@ -41,3 +81,26 @@
 * このツールは非公式の支援ツールです。
 * HTML構造の変更などにより、予告なく動作しなくなる可能性があります。
 * 重要なデータは必ず目視で確認してから保存してください。
+
+## 🛠️ 開発
+
+### ビルドスクリプト
+
+- `./script/build-chrome-extension.sh` - 拡張機能をビルドして `build/` ディレクトリに出力
+- `./script/generate-icons.sh [source_image]` - 各サイズのアイコンを生成
+- `./script/resize-to-1280x800.sh [input] [output]` - スクリーンショットを1280x800にリサイズ
+
+### ファイル構成
+
+- `manifest.json` - Chrome拡張機能の設定ファイル
+- `content-script.js` - Webページに注入されるスクリプト
+- `styles.css` - ポップアップのスタイルシート
+- `src/html/popup.html` - ポップアップのHTML
+- `src/js/popup.js` - ポップアップのJavaScript
+
+## 🔧 技術仕様
+
+- **Manifest Version**: 3
+- **対応ブラウザ**: Google Chrome
+- **権限**: `activeTab`, `scripting`
+- **React対応**: 内部Stateを適切に更新

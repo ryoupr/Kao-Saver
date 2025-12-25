@@ -4,7 +4,7 @@ async function handleExport(mode) {
   
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    files: ['content.js']
+    files: ['content-script.js']
   }, () => {
     chrome.tabs.sendMessage(tab.id, { action: "export" }, (response) => {
       if (chrome.runtime.lastError) {
@@ -55,7 +55,6 @@ document.getElementById('btnExportFile').addEventListener('click', () => {
   handleExport('file');
 });
 
-
 // ファイル読み込み処理
 document.getElementById('fileInput').addEventListener('change', (event) => {
   const file = event.target.files[0];
@@ -68,7 +67,6 @@ document.getElementById('fileInput').addEventListener('change', (event) => {
   };
   reader.readAsText(file);
 });
-
 
 // Importボタン (画面反映)
 document.getElementById('btnImport').addEventListener('click', async () => {
@@ -91,7 +89,7 @@ document.getElementById('btnImport').addEventListener('click', async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    files: ['content.js']
+    files: ['content-script.js']
   }, () => {
     chrome.tabs.sendMessage(tab.id, { action: "import", data: jsonData }, (response) => {
       if (chrome.runtime.lastError) {
