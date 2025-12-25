@@ -1,0 +1,28 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Chrome extension development
+*.crx
+*.pem
+web-ext-artifacts/
+build/
+
+# Node modules (if using build tools)
+node_modules/
+dist/

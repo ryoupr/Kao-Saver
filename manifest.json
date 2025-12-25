@@ -5,12 +5,12 @@
   "description": "カオナビ評価画面の入力内容をJSONファイルで保存・読込したり、クリップボード経由でやり取りします",
   "permissions": ["activeTab", "scripting"],
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "16": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
   },
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon.png"
+    "default_popup": "src/html/popup.html",
+    "default_icon": "icons/icon.png"
   }
 }
