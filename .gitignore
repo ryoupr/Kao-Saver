@@ -26,3 +26,6 @@ build/
 # Node modules (if using build tools)
 node_modules/
 dist/
+
+
+*.zip
