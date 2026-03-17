@@ -61,6 +61,15 @@ cp manifest.json "$TEMP_DIR/"
 cp content-script.js "$TEMP_DIR/"
 cp styles.css "$TEMP_DIR/"
 
+# src/ ディレクトリをコピー（popup.html, popup.js）
+if [ -d "src" ]; then
+    cp -r src "$TEMP_DIR/"
+    print_info "✓ src/ ディレクトリをコピーしました"
+else
+    print_error "src/ ディレクトリが見つかりません（popup.html, popup.jsが含まれます）"
+    exit 1
+fi
+
 # ディレクトリをコピー
 if [ -d "icons" ]; then
     cp -r icons "$TEMP_DIR/"

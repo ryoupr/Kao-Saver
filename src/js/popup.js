@@ -1,11 +1,15 @@
 // 共通Export処理
 async function handleExport(mode) {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  
+
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     files: ['content-script.js']
   }, () => {
+    if (chrome.runtime.lastError) {
+      alert("スクリプトの実行に失敗しました: " + chrome.runtime.lastError.message);
+      return;
+    }
     chrome.tabs.sendMessage(tab.id, { action: "export" }, (response) => {
       if (chrome.runtime.lastError) {
         alert("エラー: ページをリロードしてから再試行してください。");
@@ -85,12 +89,21 @@ document.getElementById('btnImport').addEventListener('click', async () => {
     return;
   }
 
+  if (typeof jsonData !== 'object' || Array.isArray(jsonData) || jsonData === null) {
+    alert('JSONはオブジェクト形式({...})で入力してください。');
+    return;
+  }
+
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     files: ['content-script.js']
   }, () => {
+    if (chrome.runtime.lastError) {
+      alert("スクリプトの実行に失敗しました: " + chrome.runtime.lastError.message);
+      return;
+    }
     chrome.tabs.sendMessage(tab.id, { action: "import", data: jsonData }, (response) => {
       if (chrome.runtime.lastError) {
         alert("エラー: 実行できませんでした。");
