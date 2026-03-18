@@ -70,10 +70,11 @@ else
     exit 1
 fi
 
-# ディレクトリをコピー
+# ディレクトリをコピー（マスター画像icon.pngは除外）
 if [ -d "icons" ]; then
-    cp -r icons "$TEMP_DIR/"
-    print_info "✓ icons/ ディレクトリをコピーしました"
+    mkdir -p "$TEMP_DIR/icons"
+    find icons -name "*.png" ! -name "icon.png" -exec cp {} "$TEMP_DIR/icons/" \;
+    print_info "✓ icons/ ディレクトリをコピーしました（icon.pngマスター画像は除外）"
 else
     print_warning "icons/ ディレクトリが見つかりません"
 fi
