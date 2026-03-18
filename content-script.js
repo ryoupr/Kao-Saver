@@ -2,9 +2,10 @@ if (typeof window.kaonaviToolLoaded === 'undefined') {
   window.kaonaviToolLoaded = true;
 
   /**
-   * ページ上の編集可能なtextareaを出現順に収集する
+   * ページ上のtextareaを出現順に収集する
+   * disabled/readonlyのものも含めて全て取得する（エクスポートで漏れを防ぐため）
    */
-  function collectEditableTextareas() {
+  function collectAllTextareas() {
     const results = [];
     const wrappers = document.querySelectorAll('div[id]');
 
@@ -13,8 +14,9 @@ if (typeof window.kaonaviToolLoaded === 'undefined') {
       if (!id || id.startsWith(':r') || id === 'root') return;
 
       const textarea = wrapper.querySelector('textarea');
-      if (textarea && !textarea.disabled && !textarea.readOnly) {
-        results.push({ id, textarea });
+      if (textarea) {
+        const editable = !textarea.disabled && !textarea.readOnly;
+        results.push({ id, textarea, editable });
       }
     });
 
@@ -25,11 +27,12 @@ if (typeof window.kaonaviToolLoaded === 'undefined') {
 
     // --- Export処理 (v2: ポジションベース) ---
     if (request.action === "export") {
-      const entries = collectEditableTextareas();
+      const entries = collectAllTextareas();
       const fields = entries.map((entry, index) => ({
         index,
         id: entry.id,
-        value: entry.textarea.value
+        value: entry.textarea.value,
+        editable: entry.editable
       }));
 
       sendResponse({
@@ -44,12 +47,12 @@ if (typeof window.kaonaviToolLoaded === 'undefined') {
       let count = 0;
 
       if (data._version === 2 && Array.isArray(data.fields)) {
-        // v2: ポジションベースで復元
-        const entries = collectEditableTextareas();
+        // v2: ポジションベースで復元（編集可能なフィールドのみ）
+        const entries = collectAllTextareas();
 
         for (const field of data.fields) {
           const target = entries[field.index];
-          if (target) {
+          if (target && target.editable) {
             setTextareaValue(target.textarea, field.value);
             count++;
           }
