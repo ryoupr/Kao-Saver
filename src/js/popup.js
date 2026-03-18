@@ -15,15 +15,15 @@ async function handleExport(mode) {
         alert("エラー: ページをリロードしてから再試行してください。");
         return;
       }
-      
+
       if (!response || response.count === 0) {
         alert("入力可能な項目が見つかりませんでした。\n・評価画面が開かれているか確認してください\n・「編集モード」になっているか確認してください");
         return;
       }
 
       const jsonStr = JSON.stringify(response.data, null, 2);
-      
-      // テキストエリアにも一応表示しておく
+
+      // テキストエリアにも表示
       document.getElementById('jsonInput').value = jsonStr;
 
       if (mode === 'clipboard') {
@@ -31,16 +31,14 @@ async function handleExport(mode) {
             alert(`成功: ${response.count} 項目のデータをクリップボードにコピーしました！`);
         });
       } else if (mode === 'file') {
-        // Blobを作成してダウンロードリンクを生成・クリック
         const blob = new Blob([jsonStr], {type: "application/json"});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        
-        // ファイル名に日時を入れる (例: kao_saver_20231128.json)
+
         const date = new Date();
         const ymd = date.toISOString().slice(0,10).replace(/-/g, "");
         a.download = `kao_saver_${ymd}.json`;
-        
+
         a.href = url;
         a.click();
         URL.revokeObjectURL(url);
@@ -66,7 +64,6 @@ document.getElementById('fileInput').addEventListener('change', (event) => {
 
   const reader = new FileReader();
   reader.onload = (e) => {
-    // 読み込んだ内容をテキストエリアにセット
     document.getElementById('jsonInput').value = e.target.result;
   };
   reader.readAsText(file);
@@ -76,7 +73,7 @@ document.getElementById('fileInput').addEventListener('change', (event) => {
 document.getElementById('btnImport').addEventListener('click', async () => {
   const jsonStr = document.getElementById('jsonInput').value;
   let jsonData;
-  
+
   if (!jsonStr.trim()) {
       alert("JSONデータがありません。貼り付けるかファイルを読み込んでください。");
       return;
@@ -89,8 +86,13 @@ document.getElementById('btnImport').addEventListener('click', async () => {
     return;
   }
 
-  if (typeof jsonData !== 'object' || Array.isArray(jsonData) || jsonData === null) {
-    alert('JSONはオブジェクト形式({...})で入力してください。');
+  // v2形式: { _version: 2, fields: [...] }
+  // v1形式: { "目標1": "...", ... }
+  const isV2 = jsonData._version === 2 && Array.isArray(jsonData.fields);
+  const isV1 = !isV2 && typeof jsonData === 'object' && !Array.isArray(jsonData) && jsonData !== null;
+
+  if (!isV2 && !isV1) {
+    alert('JSONの形式が認識できません。\nKao-SaverでExportしたデータを使用してください。');
     return;
   }
 
