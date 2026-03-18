@@ -1,5 +1,7 @@
 # Kao-Saver (Kaonavi JSON Tool)
 
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-blue?logo=googlechrome)](https://chromewebstore.google.com/detail/gbaodfkohmehdfkoljglmjcjjliladhb)
+
 カオナビの評価入力画面の内容をJSON形式で**バックアップ（Export）**したり、外部で編集したJSONデータを**一括反映（Import）**したりできるGoogle Chrome拡張機能です。
 
 ## 📁 プロジェクト構造
@@ -12,8 +14,11 @@
 ├── content-script.js            # コンテンツスクリプト
 ├── styles.css                   # スタイルシート
 ├── icons/                       # アイコンファイル格納
-│   ├── .gitkeep
-│   └── icon.png
+│   ├── icon.png                 # 元画像
+│   ├── icon16.png
+│   ├── icon32.png
+│   ├── icon48.png
+│   └── icon128.png
 ├── screenshot/                  # スクリーンショット格納
 │   └── .gitkeep
 ├── lib/                         # ライブラリファイル（オプション）
@@ -31,13 +36,18 @@
 ## 🚀 主な機能
 
 * **Export (出力)**:
-  * 現在開いている評価シートの入力内容を、項目IDをキーとしたJSON形式で取得します。
+  * 現在開いている評価シートの全入力内容をJSON形式で取得します（上長入力済みのdisabled/readonlyフィールドも含む）。
+  * 各フィールドに `editable` フラグが付与され、編集可能かどうかを区別できます。
   * 「クリップボードにコピー」または「ファイルとして保存（.json）」が可能です。
 * **Import (入力)**:
-  * JSONテキストを貼り付けるか、JSONファイルを読み込んで「Import」ボタンを押すと、画面上の該当する項目に自動入力されます。
+  * JSONテキストを貼り付けるか、JSONファイルを読み込んで「Import」ボタンを押すと、編集可能な項目に自動入力されます。
   * **React対応**: 内部Stateを更新するイベントを発火させるため、Import後に保存ボタンを押してもデータが消えません。
 
 ## 📦 インストール方法
+
+### Chrome Web Store（推奨）
+
+[Chrome Web Store](https://chromewebstore.google.com/detail/gbaodfkohmehdfkoljglmjcjjliladhb) からインストールできます。
 
 ### 開発版のインストール
 
